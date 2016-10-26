@@ -44,7 +44,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
             // create a view holder to save our views references
             viewHolder = new ViewHolder();
 
-            // ici on a la hierarchie de relation entre le layout 'list_row'->l'adapter (this)->MainActivityFragment->content_main.xml
+            // ici on a la hierarchie de relation entre le layout 'list_row'->l'adapter (this)->MainActivityListFragment->content_main.xml
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_row, parent, false);
 
             // Grab and Hold reference of views so we can populate them with the specific note row data

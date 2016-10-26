@@ -7,7 +7,6 @@ import android.os.Bundle;
 
 import android.view.View;
 
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ import java.util.ArrayList;
 /**
  * A simple {@link ListFragment} subclass.
  */
-public class MainActivityFragment extends ListFragment {
+public class MainActivityListFragment extends ListFragment {
 
     private ArrayList<Note> notes;
     private NoteAdapter arrayAdapter;
@@ -32,7 +31,7 @@ public class MainActivityFragment extends ListFragment {
 
 
         notes = new ArrayList<Note>();
-        notes.add(new Note("title1", "message1", Note.Category.PERSONAL));
+        notes.add(new Note("title111111111111111111111111111111111111111111111111111111111", "message11111111111111111111111111111111111111111111111111111111111111111111111", Note.Category.PERSONAL));
         notes.add(new Note("title2", "message2", Note.Category.TECHNICAL));
         notes.add(new Note("title3", "message3", Note.Category.FINANCE));
         notes.add(new Note("title4", "message4", Note.Category.QUOTE));
@@ -83,10 +82,11 @@ public class MainActivityFragment extends ListFragment {
 
     private void startNodeDetailsActivity(int position) {
         Note note = (Note) getListAdapter().getItem(position);
-        Intent intent = new Intent(getActivity(), NoteDetailsActivity.class);
+        Intent intent = new Intent(getActivity(), NoteDetailActivity.class);
         intent.putExtra(Note.Extras.TITLE, note.getTitle());
         intent.putExtra(Note.Extras.MESSAGE, note.getMessage());
         intent.putExtra(Note.Extras.CATEGORY_ASSOCIATED_DRAWABLE, note.getAssociatedDrawable());
+        intent.putExtra(Note.Extras.ID, note.getId());
 
         startActivity(intent);
     }

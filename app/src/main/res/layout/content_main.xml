@@ -11,7 +11,7 @@
 
     <fragment
         android:id="@+id/mainActivityFrag"
-        android:name="com.kendyjm.notebook.MainActivityFragment"
+        android:name="com.kendyjm.notebook.MainActivityListFragment"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"/>
 

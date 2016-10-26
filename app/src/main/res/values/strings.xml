@@ -4,5 +4,6 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="note_delails">Note details</string>
+    <string name="viewFragmentTitle">View note</string>
+    <string name="editFragmentTitle">Edit note</string>
 </resources>

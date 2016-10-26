@@ -18,9 +18,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NoteDetailsActivity"
+        <activity android:name=".NoteDetailActivity"
             android:parentActivityName=".MainActivity"
-            android:label="@string/note_delails"
+            android:label="@string/editFragmentTitle"
             ></activity>
     </application>
 
