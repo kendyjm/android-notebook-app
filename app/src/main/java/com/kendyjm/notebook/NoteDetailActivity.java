@@ -16,7 +16,7 @@ public class NoteDetailActivity extends AppCompatActivity {
     }
 
     // @see Android App Development Tutorial - 54 - Dynamically Loading NoteViewFragment
-    // we need to add (/remove?!) it dynamically ! that's why we do it programmatically
+    // we need to add (/remove! to switch to the edit mode) it dynamically ! that's why we do it programmatically
     // see the difference with content_main.xml where the fragment is just static!
     private void createAndAddFragment() {
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -24,7 +24,7 @@ public class NoteDetailActivity extends AppCompatActivity {
 
         // fragment to add
         NoteViewFragment noteViewFragment = new NoteViewFragment();
-        setTitle(R.string.viewFragmentTitle);
+        setTitle(R.string.view_fragment_title);
         // see activity_note_detail.xml
         fragmentTransaction.add(R.id.note_container, noteViewFragment, "NOTE_VIEW_FRAGMENT");
 

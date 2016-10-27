@@ -2,8 +2,11 @@
     <string name="app_name">Notebook</string>
     <string name="action_settings">Settings</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="viewFragmentTitle">View note</string>
-    <string name="editFragmentTitle">Edit note</string>
+    <!-- use underscore instead of camel case -->
+    <!-- Fragment Title strings -->
+    <string name="view_fragment_title">View note</string>
+    <string name="edit_fragment_title">Edit note</string>
+
+    <!-- Main list long click context menu -->
+    <string name="edit_menu">Edit</string>
 </resources>
