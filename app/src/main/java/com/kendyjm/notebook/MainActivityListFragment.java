@@ -5,6 +5,10 @@ import android.app.ListFragment;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.util.Log;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import android.widget.ListView;
@@ -72,15 +76,38 @@ public class MainActivityListFragment extends ListFragment {
         arrayAdapter = new NoteAdapter(getActivity(),  notes);
         setListAdapter(arrayAdapter);
 
+        // register the contet menu on a specific view
+        registerForContextMenu(getListView());
     }
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-        startNodeDetailsActivity(position);
+        launchNoteDetailActivity(position);
     }
 
-    private void startNodeDetailsActivity(int position) {
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        MenuInflater menuInflater = getActivity().getMenuInflater();
+        menuInflater.inflate(R.menu.long_press_menu, menu);
+
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item ){
+        switch (item.getItemId()) {
+            case R.id.edit:
+                // do something
+                Log.d("Menu clicks", "we pressed edit");
+                return true;
+        }
+
+        return super.onContextItemSelected(item);
+    }
+
+    private void launchNoteDetailActivity(int position) {
         Note note = (Note) getListAdapter().getItem(position);
         Intent intent = new Intent(getActivity(), NoteDetailActivity.class);
         intent.putExtra(Note.Extras.TITLE, note.getTitle());
