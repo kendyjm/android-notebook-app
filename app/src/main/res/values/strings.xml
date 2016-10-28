@@ -10,6 +10,6 @@
     <!-- Main list long click context menu -->
     <string name="edit_menu">Edit</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Edit note fragment -->
+    <string name="save_note_button">Save Note</string>
 </resources>
