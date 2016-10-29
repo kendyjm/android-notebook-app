@@ -1,5 +1,6 @@
 package com.kendyjm.notebook;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -19,16 +20,36 @@ public class NoteDetailActivity extends AppCompatActivity {
     // we need to add (/remove! to switch to the edit mode) it dynamically ! that's why we do it programmatically
     // see the difference with content_main.xml where the fragment is just static!
     private void createAndAddFragment() {
+
+        // grab intent and fragment to launch from our main activity list fragment
+        Intent intent = getIntent();
+        MainActivity.FragmentToLaunch fragToLaunch = (MainActivity.FragmentToLaunch) intent.getSerializableExtra(
+                MainActivity.FragmentToLaunch.EXTRA
+        );
+
+        // grabbing our fragment manager and our fragment transaction so that we can add our edit or view fragment dynamically
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        // fragment to add
-        NoteViewFragment noteViewFragment = new NoteViewFragment();
-        setTitle(R.string.view_fragment_title);
-        // see activity_note_detail.xml
-        fragmentTransaction.add(R.id.note_container, noteViewFragment, "NOTE_VIEW_FRAGMENT");
+        switch (fragToLaunch) {
+            case EDIT:
+                // create and add note edit fragment to note detail activity if that's what we want to launch
+                NoteEditFragment noteEditFragment = new NoteEditFragment();
+                setTitle(R.string.edit_fragment_title);
+                // see activity_note_detail.xml
+                fragmentTransaction.add(R.id.note_container, noteEditFragment, "NOTE_EDIT_FRAGMENT");
+                break;
 
+            case VIEW:
+                // create and add note view fragment to note detail activity if that's what we want to launch
+                NoteViewFragment noteViewFragment = new NoteViewFragment();
+                setTitle(R.string.view_fragment_title);
+                // see activity_note_detail.xml
+                fragmentTransaction.add(R.id.note_container, noteViewFragment, "NOTE_VIEW_FRAGMENT");
+                break;
+        }
+
+        // commit our changes so that everything works
         fragmentTransaction.commit();
-
     }
 }

@@ -120,7 +120,7 @@ public class MainActivityListFragment extends ListFragment {
         intent.putExtra(Note.Extras.MESSAGE, note.getMessage());
         intent.putExtra(Note.Extras.CATEGORY_ASSOCIATED_DRAWABLE, note.getAssociatedDrawable());
         intent.putExtra(Note.Extras.ID, note.getId());
-        intent.putExtra(MainActivity.FragmentToLaunch.EXTRA, fragToLaunch.getNoteFragment());
+        intent.putExtra(MainActivity.FragmentToLaunch.EXTRA, fragToLaunch);
 
         startActivity(intent);
     }
