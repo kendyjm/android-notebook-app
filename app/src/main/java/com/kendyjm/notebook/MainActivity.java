@@ -11,6 +11,22 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
+    public enum FragmentToLaunch {
+        EDIT(NoteEditFragment.class),
+        VIEW(NoteViewFragment.class);
+
+        public final static String EXTRA = MainActivity.class.getName() + ".FragmentToLaunch";
+
+        private Class noteFragment;
+        FragmentToLaunch(Class c) {
+            noteFragment = c;
+        }
+
+        public Class getNoteFragment() {
+            return noteFragment;
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
