@@ -49,7 +49,7 @@
         android:layout_above="@+id/saveNote"
         >
 
-        <TextView
+        <EditText
             android:text="New Text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
