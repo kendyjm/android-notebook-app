@@ -2,6 +2,10 @@ package com.kendyjm.notebook;
 
 import android.os.Bundle;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * POJO containing all requiered information about a Note
  * Created by kendy on 22/10/16.
@@ -13,11 +17,39 @@ public class Note {
     private Category category;
 
     public enum Category {
-        PERSONAL(R.drawable.p), TECHNICAL(R.drawable.t), QUOTE(R.drawable.q), FINANCE(R.drawable.f);
+        PERSONAL("Personal", R.drawable.p),
+        TECHNICAL("Technical", R.drawable.t),
+        QUOTE("Quote", R.drawable.q),
+        FINANCE("Finance", R.drawable.f);
 
+        private String label;
         private int drawable;
-        Category(int drawable) {
+
+        private static class Holder {
+            static Map<String, Category> MAP = new HashMap<String, Category>();
+
+        }
+
+        Category(String label, int drawable) {
+            this.label = label;
             this.drawable = drawable;
+            Holder.MAP.put(label, this);
+        }
+
+        public String getLabel() {
+            return label;
+        }
+
+        public static Set<String> getCategoriesSet() {
+            return Holder.MAP.keySet();
+        }
+
+        public static String[] getCategoriesArray() {
+            return Holder.MAP.keySet().toArray(new String[Holder.MAP.keySet().size()]);
+        }
+
+        public static Category getCategoryFromLabel(String label) {
+            return Holder.MAP.get(label);
         }
 
         public int getDrawable() {

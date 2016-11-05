@@ -31,6 +31,7 @@ public class NoteDetailActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
+        //should/could be done within the FragmentToLaunch Enum
         switch (fragToLaunch) {
             case EDIT:
                 // create and add note edit fragment to note detail activity if that's what we want to launch
