@@ -5,6 +5,7 @@ import android.os.Bundle;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 /**
  * POJO containing all requiered information about a Note
@@ -26,7 +27,7 @@ public class Note {
         private int drawable;
 
         private static class Holder {
-            static Map<String, Category> MAP = new HashMap<String, Category>();
+            static Map<String, Category> MAP = new TreeMap<String, Category>();
 
         }
 

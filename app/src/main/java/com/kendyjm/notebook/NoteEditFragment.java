@@ -57,7 +57,14 @@ public class NoteEditFragment extends Fragment {
         noteBody.setText(intent.getStringExtra(Note.Extras.MESSAGE));
         noteCatButton.setImageResource(intent.getIntExtra(Note.Extras.CATEGORY_ASSOCIATED_DRAWABLE, 0));
 
+        /* category dialog creation & process*/
         buildCategoryDialog();
+        noteCatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                categoryDialog.show();
+            }
+        });
 
         // Inflate the layout for this fragment
         return fragmentLayout;
@@ -69,7 +76,7 @@ public class NoteEditFragment extends Fragment {
     private void buildCategoryDialog() {
         final String[] categories = Note.Category.getCategoriesArray();
         AlertDialog.Builder categoryBuilder = new AlertDialog.Builder(getActivity());
-        categoryBuilder.setTitle("Choose note type");
+        categoryBuilder.setTitle(R.string.choose_note_category);
 
 
         categoryBuilder.setSingleChoiceItems(categories, 0, new DialogInterface.OnClickListener() {

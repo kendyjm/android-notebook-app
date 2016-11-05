@@ -12,4 +12,6 @@
 
     <!-- Edit note fragment -->
     <string name="save_note_button">Save Note</string>
+    <string name="choose_note_category">Choose note type</string>
+
 </resources>
