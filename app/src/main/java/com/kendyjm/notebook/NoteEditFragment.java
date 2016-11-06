@@ -28,12 +28,19 @@ public class NoteEditFragment extends Fragment {
     // dialogs
     private AlertDialog categoryDialog, saveNoteDialog;
 
+    // save states
+    private static final String MODIFIED_CATEGORY = NoteEditFragment.class.getName()+".Modified Category";
+
     public NoteEditFragment() {
         // Required empty public constructor
     }
 
 
     /**
+     * Remember: this method is a executed every single time we change the orientation of our device...
+     * so we need to save the edited category before orientation changing (before it comes from the intent, one time)
+     * @see NoteEditFragment.onSaveInstanceState
+     *
      * @See NoteViewFragment, which is very similar
      *
      * @param inflater
@@ -45,6 +52,10 @@ public class NoteEditFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.d("NoteEditFragment", "onCreateView start");
+
+        if (savedInstanceState !=null) {
+
+        }
 
         // Inflate the layout for this fragment
         View fragmentLayout = inflater.inflate(R.layout.fragment_note_edit, container, false);
@@ -61,8 +72,18 @@ public class NoteEditFragment extends Fragment {
         // Fill each new referenced view with the data associated with note it's referencing
         noteTitle.setText(intent.getStringExtra(Note.Extras.TITLE));
         noteMessage.setText(intent.getStringExtra(Note.Extras.MESSAGE));
-        noteCategoryButton.setImageResource(intent.getIntExtra(Note.Extras.CATEGORY_ASSOCIATED_DRAWABLE, 0));
-        noteCategory = (Note.Category) intent.getSerializableExtra(Note.Extras.CATEGORY);
+
+        if (savedInstanceState == null) {
+            // we come from our list fragment so just do everything normally
+            noteCategory = (Note.Category) intent.getSerializableExtra(Note.Extras.CATEGORY);
+            noteCategoryButton.setImageResource(intent.getIntExtra(Note.Extras.CATEGORY_ASSOCIATED_DRAWABLE, 0));
+        }
+        else {
+            // if we grabed a category from our bundle then we know we changed orientation and saved information
+            // so set our image button background to that category
+            noteCategory = (Note.Category) savedInstanceState.get(MODIFIED_CATEGORY);
+            noteCategoryButton.setImageResource(Note.categoryToDrawable(noteCategory));
+        }
 
         /* category dialog creation & process */
         buildCategoryDialog();
@@ -84,6 +105,12 @@ public class NoteEditFragment extends Fragment {
 
         // Inflate the layout for this fragment
         return fragmentLayout;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(MODIFIED_CATEGORY, noteCategory);
     }
 
     /**
