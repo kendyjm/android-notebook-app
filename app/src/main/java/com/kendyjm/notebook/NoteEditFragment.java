@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
@@ -19,10 +20,10 @@ import android.widget.ImageButton;
  */
 public class NoteEditFragment extends Fragment {
 
-    private ImageButton noteCatButton;
     private EditText noteTitle;
-    private EditText noteBody;
-    private Note.Category savedButtonCategory;
+    private EditText noteMessage;
+    private Note.Category noteCategory;
+    private ImageButton noteCategoryButton;
 
     // dialogs
     private AlertDialog categoryDialog, saveNoteDialog;
@@ -43,25 +44,29 @@ public class NoteEditFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d("NoteEditFragment", "onCreateView start");
+
         // Inflate the layout for this fragment
         View fragmentLayout = inflater.inflate(R.layout.fragment_note_edit, container, false);
 
         // Grab and Hold reference of views so we can populate them with the specific note row data
         noteTitle = (EditText) fragmentLayout.findViewById(R.id.editNoteTitle);
-        noteBody = (EditText) fragmentLayout.findViewById(R.id.editNoteMessage);
-        noteCatButton = (ImageButton) fragmentLayout.findViewById(R.id.editNoteButton);
+        noteMessage = (EditText) fragmentLayout.findViewById(R.id.editNoteMessage);
+        noteCategoryButton = (ImageButton) fragmentLayout.findViewById(R.id.editNoteButton);
+        Button saveButton = (Button) fragmentLayout.findViewById(R.id.saveNote);
 
         // grab the activity owning this fragment: fragment<-activity<-intent
         Intent intent = getActivity().getIntent();
 
         // Fill each new referenced view with the data associated with note it's referencing
         noteTitle.setText(intent.getStringExtra(Note.Extras.TITLE));
-        noteBody.setText(intent.getStringExtra(Note.Extras.MESSAGE));
-        noteCatButton.setImageResource(intent.getIntExtra(Note.Extras.CATEGORY_ASSOCIATED_DRAWABLE, 0));
+        noteMessage.setText(intent.getStringExtra(Note.Extras.MESSAGE));
+        noteCategoryButton.setImageResource(intent.getIntExtra(Note.Extras.CATEGORY_ASSOCIATED_DRAWABLE, 0));
+        noteCategory = (Note.Category) intent.getSerializableExtra(Note.Extras.CATEGORY);
 
         /* category dialog creation & process */
         buildCategoryDialog();
-        noteCatButton.setOnClickListener(new View.OnClickListener() {
+        noteCategoryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 categoryDialog.show();
@@ -70,6 +75,12 @@ public class NoteEditFragment extends Fragment {
 
         /* save dialog creation & process */
         buildSaveNoteConfirmDialog();
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveNoteDialog.show();
+            }
+        });
 
         // Inflate the layout for this fragment
         return fragmentLayout;
@@ -91,8 +102,8 @@ public class NoteEditFragment extends Fragment {
                 categoryDialog.cancel();
 
                 String selectedCategory = categories[item];
-                savedButtonCategory = Note.Category.getCategoryFromLabel(selectedCategory);
-                noteCatButton.setImageResource(savedButtonCategory.getDrawable());
+                noteCategory = Note.Category.getCategoryFromLabel(selectedCategory);
+                noteCategoryButton.setImageResource(noteCategory.getDrawable());
             }
 
         });
@@ -107,12 +118,12 @@ public class NoteEditFragment extends Fragment {
         saveNoteConfirmBuilder.setMessage(R.string.save_note_confirm_message);
 
 
-        saveNoteConfirmBuilder.setPositiveButton(R.string.save_note_confirm_button, new DialogInterface.OnClickListener() {
+        saveNoteConfirmBuilder.setPositiveButton(R.string.save_note_confirm_button_OK, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Log.d("Save note", "Note title: " + noteTitle.getText() + ", message:" + noteBody.getText() + ", category:" + noteCatButton);
+                Log.d("Save note", "Note title: " + noteTitle.getText() + ", message:" + noteMessage.getText() + ", category:" + noteCategory);
 
-                // save process
+                // TODO save note process
 
                 // then get back to the main activity
                 Intent intent = new Intent(getActivity(), MainActivity.class);
@@ -120,7 +131,7 @@ public class NoteEditFragment extends Fragment {
             }
         });
 
-        saveNoteConfirmBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        saveNoteConfirmBuilder.setNegativeButton(R.string.save_note_confirm_button_CANCEL, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // do noting here
