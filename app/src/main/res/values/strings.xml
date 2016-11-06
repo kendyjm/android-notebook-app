@@ -13,5 +13,8 @@
     <!-- Edit note fragment -->
     <string name="save_note_button">Save Note</string>
     <string name="choose_note_category">Choose note type</string>
+    <string name="save_note_confirm_title">Are you sure?</string>
+    <string name="save_note_confirm_message">Are you sure you want to save the note?</string>
+    <string name="save_note_confirm_button">Confirm</string>
 
 </resources>
