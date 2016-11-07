@@ -76,7 +76,11 @@ public class NoteEditFragment extends Fragment {
         if (savedInstanceState == null) {
             // we come from our list fragment so just do everything normally
             noteCategory = (Note.Category) intent.getSerializableExtra(Note.Extras.CATEGORY);
-            noteCategoryButton.setImageResource(intent.getIntExtra(Note.Extras.CATEGORY_ASSOCIATED_DRAWABLE, 0));
+            int ressourceId = intent.getIntExtra(Note.Extras.CATEGORY_ASSOCIATED_DRAWABLE, -1);
+            if(ressourceId != -1) {
+                noteCategoryButton.setImageResource(ressourceId);
+            } // else P is the default image button
+
         }
         else {
             // if we grabed a category from our bundle then we know we changed orientation and saved information
