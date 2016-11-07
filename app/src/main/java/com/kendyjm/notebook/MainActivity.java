@@ -1,5 +1,6 @@
 package com.kendyjm.notebook;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,7 +14,8 @@ public class MainActivity extends AppCompatActivity {
 
     public enum FragmentToLaunch {
         EDIT(NoteEditFragment.class),
-        VIEW(NoteViewFragment.class);
+        VIEW(NoteViewFragment.class),
+        CREATE(NoteEditFragment.class);
 
         public final static String EXTRA = MainActivity.class.getName() + ".FragmentToLaunch";
 
@@ -34,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        /*
+        /* TODO use FloatingActionButton for ADD NOTE button
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,6 +64,13 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            return true;
+        }
+        else if (id == R.id.action_add_note) {
+            // go to the note detail activity...which should open the note edit fragment...
+            Intent intent = new Intent(this, NoteDetailActivity.class);
+            intent.putExtra(MainActivity.FragmentToLaunch.EXTRA, FragmentToLaunch.CREATE);
+            startActivity(intent);
             return true;
         }
 
