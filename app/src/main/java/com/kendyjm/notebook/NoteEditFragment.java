@@ -78,7 +78,6 @@ public class NoteEditFragment extends Fragment {
             noteCategory = (Note.Category) intent.getSerializableExtra(Note.Extras.CATEGORY);
             int ressourceId = intent.getIntExtra(Note.Extras.CATEGORY_ASSOCIATED_DRAWABLE, -1);
             if(ressourceId != -1) {
-                noteCategoryButton.setImageResource(ressourceId);
             } // else P is the default image button
 
         }
