@@ -70,8 +70,8 @@ public class NoteEditFragment extends Fragment {
         Intent intent = getActivity().getIntent();
 
         // Fill each new referenced view with the data associated with note it's referencing
-        noteTitle.setText(intent.getStringExtra(Note.Extras.TITLE));
-        noteMessage.setText(intent.getStringExtra(Note.Extras.MESSAGE));
+        noteTitle.setText(intent.getExtras().getString(Note.Extras.TITLE, ""));
+        noteMessage.setText(intent.getExtras().getString(Note.Extras.MESSAGE, ""));
 
         if (savedInstanceState == null) {
             // we come from our list fragment so just do everything normally
