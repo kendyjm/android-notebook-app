@@ -1,10 +1,14 @@
 package com.kendyjm.notebook;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by kendy on 07/11/16.
@@ -49,6 +53,31 @@ public class NotebookDbAdapter {
 
     public void close() {
         notebookHelper.close();
+    }
+
+    // Add this in  class "NotebookDbAdapter"
+
+    public List<Note> getAllNotes()
+    {
+        List<Note> notes = new ArrayList<Note>();
+        try (Cursor cursor = sqlDB.query(NOTE_TABLE, allColumns, null, null, null, null, null)) {
+
+            // TODO parcourt de la dernière à la première, pkoi?
+            for (cursor.moveToLast(); !cursor.isBeforeFirst(); cursor.moveToPrevious()) {
+                Note note = cursorToNote(cursor);
+                notes.add(note);
+            }
+        }
+        return  notes;
+    }
+
+    private Note cursorToNote(Cursor cursor)
+    {
+        Note newnote = new Note(cursor.getString(1), cursor.getString(2),
+                Note.Category.getCategoryFromLabel(cursor.getString(3)),
+                cursor.getLong(4), cursor.getLong(5));
+
+        return newnote;
     }
 
     private static class NotebookDbHelper extends SQLiteOpenHelper {

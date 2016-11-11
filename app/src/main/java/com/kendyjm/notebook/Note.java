@@ -31,6 +31,7 @@ public class Note {
 
         }
 
+
         Category(String label, int drawable) {
             this.label = label;
             this.drawable = drawable;
@@ -67,10 +68,12 @@ public class Note {
         public final static String CATEGORY_ASSOCIATED_DRAWABLE = Note.class.getName() + ".CATEGORY_ASSOCIATED_DRAWABLE";
     }
 
-    public Note(String title, String message, Category category) {
+    public Note(String title, String message, Category category, long noteId, long dateCreatedMilli) {
         this.title = title;
         this.message = message;
         this.category = category;
+        this.noteId = noteId;
+        this.dateCreatedMilli = dateCreatedMilli;
     }
 
     public String getTitle() {
