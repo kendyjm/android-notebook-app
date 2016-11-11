@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by kendy on 22/10/16.
@@ -21,7 +22,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
      * @param context The current context.
      * @param notes   The notes array
      */
-    public NoteAdapter(Context context, ArrayList<Note> notes) {
+    public NoteAdapter(Context context, List<Note> notes) {
         super(context, 0, notes);
     }
 

@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -22,7 +23,7 @@ import java.util.ArrayList;
  */
 public class MainActivityListFragment extends ListFragment {
 
-    private ArrayList<Note> notes;
+    private List<Note> notes;
     private NoteAdapter arrayAdapter;
 
     @Override
@@ -35,7 +36,12 @@ public class MainActivityListFragment extends ListFragment {
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, values);*/
 
 
-        notes = new ArrayList<Note>();
+        NotebookDbAdapter dbAdapter = new NotebookDbAdapter(getActivity().getBaseContext());
+        dbAdapter.open();
+        notes = dbAdapter.getAllNotes();
+        dbAdapter.close();
+
+        /*notes = new ArrayList<Note>();
         notes.add(new Note("title111111111111111111111111111111111111111111111111111111111", "message11111111111111111111111111111111111111111111111111111111111111111111111", Note.Category.PERSONAL));
         notes.add(new Note("title2", "message2", Note.Category.TECHNICAL));
         notes.add(new Note("title3", "message3", Note.Category.FINANCE));
@@ -71,7 +77,7 @@ public class MainActivityListFragment extends ListFragment {
         notes.add(new Note("title1", "message1", Note.Category.PERSONAL));
         notes.add(new Note("title2", "message2", Note.Category.TECHNICAL));
         notes.add(new Note("title3", "message3", Note.Category.FINANCE));
-        notes.add(new Note("title4", "message4", Note.Category.QUOTE));
+        notes.add(new Note("title4", "message4", Note.Category.QUOTE));*/
 
 
         arrayAdapter = new NoteAdapter(getActivity(),  notes);
