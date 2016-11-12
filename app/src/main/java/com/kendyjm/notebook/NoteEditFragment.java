@@ -20,10 +20,14 @@ import android.widget.ImageButton;
  */
 public class NoteEditFragment extends Fragment {
 
+    // type of EditFragment
+    private boolean newNote;
+
     private EditText noteTitle;
     private EditText noteMessage;
     private Note.Category noteCategory;
     private ImageButton noteCategoryButton;
+    private long noteId;
 
     // dialogs
     private AlertDialog categoryDialog, saveNoteDialog;
@@ -53,8 +57,9 @@ public class NoteEditFragment extends Fragment {
                              Bundle savedInstanceState) {
         Log.d("NoteEditFragment", "onCreateView start");
 
-        if (savedInstanceState !=null) {
 
+        if(savedInstanceState==null) {
+            newNote = getArguments().getBoolean(NoteDetailActivity.NEW_NOTE_EXTRA);
         }
 
         // Inflate the layout for this fragment
@@ -72,21 +77,23 @@ public class NoteEditFragment extends Fragment {
         // Fill each new referenced view with the data associated with note it's referencing
         noteTitle.setText(intent.getExtras().getString(Note.Extras.TITLE, ""));
         noteMessage.setText(intent.getExtras().getString(Note.Extras.MESSAGE, ""));
+        noteId = intent.getExtras().getLong(Note.Extras.ID, 0);
 
-        if (savedInstanceState == null) {
+
+        if (savedInstanceState == null && newNote == false) {
+            // EDIT MODE,
             // we come from our list fragment so just do everything normally
             noteCategory = (Note.Category) intent.getSerializableExtra(Note.Extras.CATEGORY);
-            int ressourceId = intent.getIntExtra(Note.Extras.CATEGORY_ASSOCIATED_DRAWABLE, -1);
-            if(ressourceId != -1) {
-            } // else P is the default image button
-
+            noteCategoryButton.setImageResource(Note.categoryToDrawable(noteCategory));
         }
-        else {
+        else if (savedInstanceState != null){
+            // CREATE OR EDIT mode,
             // if we grabed a category from our bundle then we know we changed orientation and saved information
             // so set our image button background to that category
             noteCategory = (Note.Category) savedInstanceState.get(MODIFIED_CATEGORY);
             noteCategoryButton.setImageResource(Note.categoryToDrawable(noteCategory));
         }
+
 
         /* category dialog creation & process */
         buildCategoryDialog();
@@ -156,9 +163,15 @@ public class NoteEditFragment extends Fragment {
                 // TODO save note process
                 NotebookDbAdapter dbAdapter = new NotebookDbAdapter(getActivity().getBaseContext());
                 dbAdapter.open();
-                Note newNote = dbAdapter.createNote(noteTitle.getText().toString(), noteMessage.getText().toString(),
-                        noteCategory == null ? Note.Category.PERSONAL : noteCategory);
-                Log.i("buildSaveNoteConfirm", "newNote:" + newNote);
+
+                if(newNote == true) {
+                    Note newNote = dbAdapter.createNote(noteTitle.getText().toString(), noteMessage.getText().toString(),
+                            noteCategory == null ? Note.Category.PERSONAL : noteCategory);
+                }
+                else {
+                    dbAdapter.updateNote(noteId , noteTitle.getText().toString(), noteMessage.getText().toString(), noteCategory);
+                }
+
                 dbAdapter.close();
 
                 // then get back to the main activity

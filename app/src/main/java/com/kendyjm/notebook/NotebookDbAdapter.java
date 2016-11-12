@@ -17,6 +17,8 @@ import java.util.List;
  */
 
 public class NotebookDbAdapter {
+    private static final String TAG_LOG = NotebookDbAdapter.class.getName();
+
     public static final String DATABASE_NAME = "notebook.db";
     public static final int DATABASE_VERSION = 1;
 
@@ -74,8 +76,31 @@ public class NotebookDbAdapter {
             // TODO là on insert puis on select pour créer l'objet Note à partir de la db, 3 étapes
             // pkoi ne pas faire l'inverse: créer l'objet note, puis l'insérer ?
             Note newNote = cursorToNote(cursor);
+            Log.i(TAG_LOG, "created Note : " + newNote);
             return  newNote;
         }
+    }
+
+    /**
+     *
+     * @param idToUpdate
+     * @param newTitle
+     * @param newMessage
+     * @param newCategory
+     * @return the number of rows that have been updated
+     */
+    public long updateNote(long idToUpdate, String newTitle, String newMessage, Note.Category newCategory) {
+
+
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_TITLE, newTitle);
+        values.put(COLUMN_MESSAGE, newMessage);
+        values.put(COLUMN_CATEGORY, newCategory.getLabel());
+        values.put(COLUMN_DATE, System.currentTimeMillis() + "");
+
+        Log.i(TAG_LOG, "updateNote id=" + idToUpdate + " whith values: " + values);
+
+        return sqlDB.update(NOTE_TABLE, values, COLUMN_ID + " = " + idToUpdate, null);
     }
 
     public List<Note> getAllNotes()

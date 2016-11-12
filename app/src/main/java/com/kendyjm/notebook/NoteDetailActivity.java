@@ -39,6 +39,12 @@ public class NoteDetailActivity extends AppCompatActivity {
                 // create and add note edit fragment to note detail activity if that's what we want to launch
                 NoteEditFragment noteEditFragment = new NoteEditFragment();
                 setTitle(R.string.edit_fragment_title);
+
+                // pass some arguments
+                Bundle bundleEdit = new Bundle();
+                bundleEdit.putBoolean(NEW_NOTE_EXTRA, false);
+                noteEditFragment.setArguments(bundleEdit);
+
                 // see activity_note_detail.xml
                 fragmentTransaction.add(R.id.note_container, noteEditFragment, "NOTE_EDIT_FRAGMENT");
                 break;
@@ -56,9 +62,10 @@ public class NoteDetailActivity extends AppCompatActivity {
                 NoteEditFragment noteCreateFragment = new NoteEditFragment();
                 setTitle(R.string.create_fragment_title);
 
-                Bundle bundle = new Bundle();
-                bundle.putBoolean(NEW_NOTE_EXTRA, true);
-                noteCreateFragment.setArguments(bundle);
+                // pass some arguments
+                Bundle bundleCreate = new Bundle();
+                bundleCreate.putBoolean(NEW_NOTE_EXTRA, true);
+                noteCreateFragment.setArguments(bundleCreate);
 
                 // see activity_note_detail.xml
                 fragmentTransaction.add(R.id.note_container, noteCreateFragment, "NOTE_CREATE_FRAGMENT");
