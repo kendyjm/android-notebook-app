@@ -1,5 +1,6 @@
 package com.kendyjm.notebook;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -55,7 +56,25 @@ public class NotebookDbAdapter {
         notebookHelper.close();
     }
 
-    // Add this in  class "NotebookDbAdapter"
+    public Note createNote(String title, String message, Note.Category category) {
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_TITLE, title);
+        values.put(COLUMN_MESSAGE, message);
+        values.put(COLUMN_CATEGORY, category.getLabel());
+        values.put(COLUMN_DATE, System.currentTimeMillis() + "");
+        // no need to set ID, it is autoincrement
+
+        long insertId = sqlDB.insert(NOTE_TABLE, null, values);
+
+        Cursor cursor = sqlDB.query(NOTE_TABLE, allColumns, COLUMN_ID + " = " + insertId, null, null, null, null);
+        cursor.moveToFirst();
+
+        // TODO là on insert puis on select pour créer l'objet Note à partir de la db, 3 étapes
+        // pkoi ne pas faire l'inverse: créer l'objet note, puis l'insérer ?
+        Note newNote = cursorToNote(cursor);
+
+        return  newNote;
+    }
 
     public List<Note> getAllNotes()
     {
