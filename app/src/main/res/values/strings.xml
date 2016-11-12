@@ -13,6 +13,7 @@
 
     <!-- Main list long click context menu -->
     <string name="edit_menu">Edit</string>
+    <string name="delete_menu">Delete</string>
 
     <!-- Edit note fragment -->
     <string name="save_note_button">Save Note</string>

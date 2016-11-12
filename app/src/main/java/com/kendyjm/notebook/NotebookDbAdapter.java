@@ -90,8 +90,6 @@ public class NotebookDbAdapter {
      * @return the number of rows that have been updated
      */
     public long updateNote(long idToUpdate, String newTitle, String newMessage, Note.Category newCategory) {
-
-
         ContentValues values = new ContentValues();
         values.put(COLUMN_TITLE, newTitle);
         values.put(COLUMN_MESSAGE, newMessage);
@@ -101,6 +99,13 @@ public class NotebookDbAdapter {
         Log.i(TAG_LOG, "updateNote id=" + idToUpdate + " whith values: " + values);
 
         return sqlDB.update(NOTE_TABLE, values, COLUMN_ID + " = " + idToUpdate, null);
+    }
+
+
+    public long deleteNote(long idToDelete) {
+        Log.i(TAG_LOG, "deleteNote id=" + idToDelete);
+
+        return sqlDB.delete(NOTE_TABLE, COLUMN_ID + " = " + idToDelete, null);
     }
 
     public List<Note> getAllNotes()

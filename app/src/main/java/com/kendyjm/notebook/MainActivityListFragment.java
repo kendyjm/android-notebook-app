@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -24,7 +23,7 @@ import java.util.List;
 public class MainActivityListFragment extends ListFragment {
 
     private List<Note> notes;
-    private NoteAdapter arrayAdapter;
+    private NoteAdapter noteAdapter;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -33,7 +32,7 @@ public class MainActivityListFragment extends ListFragment {
         /*String[] values = new String[] {
                 "Android", "iPhone", "WindowsMobile"
         };
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, values);*/
+        ArrayAdapter<String> noteAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, values);*/
 
 
         NotebookDbAdapter dbAdapter = new NotebookDbAdapter(getActivity().getBaseContext());
@@ -42,8 +41,9 @@ public class MainActivityListFragment extends ListFragment {
         Log.i("listNotes", "retrieved " + notes.size() + " notes from the db");
         dbAdapter.close();
 
-        arrayAdapter = new NoteAdapter(getActivity(),  notes);
-        setListAdapter(arrayAdapter);
+        noteAdapter = new NoteAdapter(getActivity(),  notes);
+
+        setListAdapter(noteAdapter);
 
         // register the contet menu on a specific view
         registerForContextMenu(getListView());
@@ -75,6 +75,20 @@ public class MainActivityListFragment extends ListFragment {
             case R.id.edit:
                 launchNoteDetailActivity(MainActivity.FragmentToLaunch.EDIT, rowPosition);
                 Log.d("Menu clicks", "we pressed edit");
+                return true;
+
+            case R.id.delete:
+                Note note = (Note) getListAdapter().getItem(rowPosition);
+                NotebookDbAdapter dbAdapter = new NotebookDbAdapter(getActivity().getBaseContext());
+                dbAdapter.open();
+                dbAdapter.deleteNote(note.getId());
+                dbAdapter.close();
+
+                // delete from the data model
+                Log.d("remove", "remove position:" + rowPosition);
+                notes.remove(rowPosition);
+                noteAdapter.notifyDataSetChanged();
+
                 return true;
         }
 
