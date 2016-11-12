@@ -68,11 +68,11 @@ public class Note {
         public final static String CATEGORY_ASSOCIATED_DRAWABLE = Note.class.getName() + ".CATEGORY_ASSOCIATED_DRAWABLE";
     }
 
-    public Note(String title, String message, Category category) {
-        this(title, message, category, System.currentTimeMillis(), System.currentTimeMillis());
-    }
+    /*public Note(String title, String message, Category category) {
+        this(System.currentTimeMillis(), title, message, category, System.currentTimeMillis());
+    }*/
 
-    public Note(String title, String message, Category category, long noteId, long dateCreatedMilli) {
+    public Note(long noteId, String title, String message, Category category, long dateCreatedMilli) {
         this.title = title;
         this.message = message;
         this.category = category;

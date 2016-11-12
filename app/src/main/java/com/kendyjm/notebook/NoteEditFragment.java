@@ -154,6 +154,12 @@ public class NoteEditFragment extends Fragment {
                 Log.d("Save note", "Note title: " + noteTitle.getText() + ", message:" + noteMessage.getText() + ", category:" + noteCategory);
 
                 // TODO save note process
+                NotebookDbAdapter dbAdapter = new NotebookDbAdapter(getActivity().getBaseContext());
+                dbAdapter.open();
+                Note newNote = dbAdapter.createNote(noteTitle.getText().toString(), noteMessage.getText().toString(),
+                        noteCategory == null ? Note.Category.PERSONAL : noteCategory);
+                Log.i("buildSaveNoteConfirm", "newNote:" + newNote);
+                dbAdapter.close();
 
                 // then get back to the main activity
                 Intent intent = new Intent(getActivity(), MainActivity.class);

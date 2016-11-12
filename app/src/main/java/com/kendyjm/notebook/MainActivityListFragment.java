@@ -39,46 +39,8 @@ public class MainActivityListFragment extends ListFragment {
         NotebookDbAdapter dbAdapter = new NotebookDbAdapter(getActivity().getBaseContext());
         dbAdapter.open();
         notes = dbAdapter.getAllNotes();
+        Log.i("listNotes", "retrieved " + notes.size() + " notes from the db");
         dbAdapter.close();
-
-        /*notes = new ArrayList<Note>();
-        notes.add(new Note("title111111111111111111111111111111111111111111111111111111111", "message11111111111111111111111111111111111111111111111111111111111111111111111", Note.Category.PERSONAL));
-        notes.add(new Note("title2", "message2", Note.Category.TECHNICAL));
-        notes.add(new Note("title3", "message3", Note.Category.FINANCE));
-        notes.add(new Note("title4", "message4", Note.Category.QUOTE));
-        notes.add(new Note("title1", "message1", Note.Category.PERSONAL));
-        notes.add(new Note("title2", "message2", Note.Category.TECHNICAL));
-        notes.add(new Note("title3", "message3", Note.Category.FINANCE));
-        notes.add(new Note("title4", "message4", Note.Category.QUOTE));
-        notes.add(new Note("title1", "message1", Note.Category.PERSONAL));
-        notes.add(new Note("title2", "message2", Note.Category.TECHNICAL));
-        notes.add(new Note("title3", "message3", Note.Category.FINANCE));
-        notes.add(new Note("title4", "message4", Note.Category.QUOTE));
-        notes.add(new Note("title1", "message1", Note.Category.PERSONAL));
-        notes.add(new Note("title2", "message2", Note.Category.TECHNICAL));
-        notes.add(new Note("title3", "message3", Note.Category.FINANCE));
-        notes.add(new Note("title4", "message4", Note.Category.QUOTE));
-        notes.add(new Note("title1", "message1", Note.Category.PERSONAL));
-        notes.add(new Note("title2", "message2", Note.Category.TECHNICAL));
-        notes.add(new Note("title3", "message3", Note.Category.FINANCE));
-        notes.add(new Note("title4", "message4", Note.Category.QUOTE));
-        notes.add(new Note("title1", "message1", Note.Category.PERSONAL));
-        notes.add(new Note("title2", "message2", Note.Category.TECHNICAL));
-        notes.add(new Note("title3", "message3", Note.Category.FINANCE));
-        notes.add(new Note("title4", "message4", Note.Category.QUOTE));
-        notes.add(new Note("title1", "message1", Note.Category.PERSONAL));
-        notes.add(new Note("title2", "message2", Note.Category.TECHNICAL));
-        notes.add(new Note("title3", "message3", Note.Category.FINANCE));
-        notes.add(new Note("title4", "message4", Note.Category.QUOTE));
-        notes.add(new Note("title1", "message1", Note.Category.PERSONAL));
-        notes.add(new Note("title2", "message2", Note.Category.TECHNICAL));
-        notes.add(new Note("title3", "message3", Note.Category.FINANCE));
-        notes.add(new Note("title4", "message4", Note.Category.QUOTE));
-        notes.add(new Note("title1", "message1", Note.Category.PERSONAL));
-        notes.add(new Note("title2", "message2", Note.Category.TECHNICAL));
-        notes.add(new Note("title3", "message3", Note.Category.FINANCE));
-        notes.add(new Note("title4", "message4", Note.Category.QUOTE));*/
-
 
         arrayAdapter = new NoteAdapter(getActivity(),  notes);
         setListAdapter(arrayAdapter);

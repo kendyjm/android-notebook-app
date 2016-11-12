@@ -34,8 +34,8 @@ public class NotebookDbAdapter {
             + COLUMN_ID + " integer primary key autoincrement, "
             + COLUMN_TITLE + " text not null, "
             + COLUMN_MESSAGE + " text not null, "
-            + COLUMN_CATEGORY + " integer not null, "
-            + COLUMN_DATE + " date);";
+            + COLUMN_CATEGORY + " text not null, "
+            + COLUMN_DATE + ");";
 
     private SQLiteDatabase sqlDB;
     private Context context;
@@ -48,7 +48,9 @@ public class NotebookDbAdapter {
 
     public NotebookDbAdapter open() throws SQLException {
         notebookHelper = new NotebookDbHelper(context);
+
         sqlDB = notebookHelper.getWritableDatabase();
+       //notebookHelper.onUpgrade(sqlDB, 0, 1);
         return this;
     }
 
@@ -66,35 +68,36 @@ public class NotebookDbAdapter {
 
         long insertId = sqlDB.insert(NOTE_TABLE, null, values);
 
-        Cursor cursor = sqlDB.query(NOTE_TABLE, allColumns, COLUMN_ID + " = " + insertId, null, null, null, null);
-        cursor.moveToFirst();
+        try(Cursor cursor = sqlDB.query(NOTE_TABLE, allColumns, COLUMN_ID + " = " + insertId, null, null, null, null)) {
+            cursor.moveToFirst();
 
-        // TODO là on insert puis on select pour créer l'objet Note à partir de la db, 3 étapes
-        // pkoi ne pas faire l'inverse: créer l'objet note, puis l'insérer ?
-        Note newNote = cursorToNote(cursor);
-
-        return  newNote;
+            // TODO là on insert puis on select pour créer l'objet Note à partir de la db, 3 étapes
+            // pkoi ne pas faire l'inverse: créer l'objet note, puis l'insérer ?
+            Note newNote = cursorToNote(cursor);
+            return  newNote;
+        }
     }
 
     public List<Note> getAllNotes()
     {
         List<Note> notes = new ArrayList<Note>();
-        try (Cursor cursor = sqlDB.query(NOTE_TABLE, allColumns, null, null, null, null, null)) {
+
+        Cursor cursor = sqlDB.query(NOTE_TABLE, allColumns, null, null, null, null, null);
 
             // TODO parcourt de la dernière à la première, pkoi?
             for (cursor.moveToLast(); !cursor.isBeforeFirst(); cursor.moveToPrevious()) {
                 Note note = cursorToNote(cursor);
                 notes.add(note);
             }
-        }
+        cursor.close();
         return  notes;
     }
 
     private Note cursorToNote(Cursor cursor)
     {
-        Note newnote = new Note(cursor.getString(1), cursor.getString(2),
+        Note newnote = new Note(cursor.getLong(0), cursor.getString(1), cursor.getString(2),
                 Note.Category.getCategoryFromLabel(cursor.getString(3)),
-                cursor.getLong(4), cursor.getLong(5));
+                cursor.getLong(4));
 
         return newnote;
     }
