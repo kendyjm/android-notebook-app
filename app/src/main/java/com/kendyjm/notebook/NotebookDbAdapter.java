@@ -114,7 +114,7 @@ public class NotebookDbAdapter {
 
         Cursor cursor = sqlDB.query(NOTE_TABLE, allColumns, null, null, null, null, null);
 
-            // TODO parcourt de la dernière à la première, pkoi?
+            // parcourt de la dernière à la première, pour afficher la dernière note en haut de la liste
             for (cursor.moveToLast(); !cursor.isBeforeFirst(); cursor.moveToPrevious()) {
                 Note note = cursorToNote(cursor);
                 notes.add(note);

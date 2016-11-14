@@ -131,8 +131,9 @@ public class NoteEditFragment extends Fragment {
         AlertDialog.Builder categoryBuilder = new AlertDialog.Builder(getActivity());
         categoryBuilder.setTitle(R.string.choose_note_category);
 
-        // TODO find the right checkedItem
-        categoryBuilder.setSingleChoiceItems(categories, 0, new DialogInterface.OnClickListener() {
+        int checkedItem = Note.Category.getItemPosition(noteCategory);
+
+        categoryBuilder.setSingleChoiceItems(categories, checkedItem, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
                 // dismisses our dialog window
@@ -160,7 +161,6 @@ public class NoteEditFragment extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 Log.d("Save note", "Note title: " + noteTitle.getText() + ", message:" + noteMessage.getText() + ", category:" + noteCategory);
 
-                // TODO save note process
                 NotebookDbAdapter dbAdapter = new NotebookDbAdapter(getActivity().getBaseContext());
                 dbAdapter.open();
 

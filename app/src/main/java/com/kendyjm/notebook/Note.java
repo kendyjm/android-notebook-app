@@ -3,6 +3,7 @@ package com.kendyjm.notebook;
 import android.os.Bundle;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -27,10 +28,9 @@ public class Note {
         private int drawable;
 
         private static class Holder {
-            static Map<String, Category> MAP = new TreeMap<String, Category>();
+            static Map<String, Category> MAP = new LinkedHashMap<String, Category>();
 
         }
-
 
         Category(String label, int drawable) {
             this.label = label;
@@ -48,6 +48,19 @@ public class Note {
 
         public static String[] getCategoriesArray() {
             return Holder.MAP.keySet().toArray(new String[Holder.MAP.keySet().size()]);
+        }
+
+        public static int getItemPosition(Category category) {
+            int checkedItem = 0;
+            String[] categories = getCategoriesArray();
+            for (int i = 0; i < categories.length; i++) {
+                if(categories[i].equals(category.getLabel())) {
+                    checkedItem = i;
+                    break;
+                }
+            }
+
+            return checkedItem;
         }
 
         public static Category getCategoryFromLabel(String label) {
