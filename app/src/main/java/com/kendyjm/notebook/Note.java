@@ -113,6 +113,10 @@ public class Note {
         return noteId;
     }
 
+    public void setNoteId(long noteId) {
+        this.noteId = noteId;
+    }
+
     @Override
     public String toString() {
         return "Note{" +

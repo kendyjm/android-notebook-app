@@ -61,24 +61,18 @@ public class NotebookDbAdapter {
     }
 
     public Note createNote(String title, String message, Note.Category category) {
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_TITLE, title);
-        values.put(COLUMN_MESSAGE, message);
-        values.put(COLUMN_CATEGORY, category.getLabel());
-        values.put(COLUMN_DATE, System.currentTimeMillis() + "");
-        // no need to set ID, it is autoincrement
+        // instanciation de la nouvelle note
+        Note newNote = new Note(-1, title, message, category, System.currentTimeMillis());
 
+        // insert en base
+        ContentValues values = noteToContentValues(newNote);
         long insertId = sqlDB.insert(NOTE_TABLE, null, values);
 
-        try(Cursor cursor = sqlDB.query(NOTE_TABLE, allColumns, COLUMN_ID + " = " + insertId, null, null, null, null)) {
-            cursor.moveToFirst();
+        // maj de l'id après insertion
+        newNote.setNoteId(insertId);
 
-            // TODO là on insert puis on select pour créer l'objet Note à partir de la db, 3 étapes
-            // pkoi ne pas faire l'inverse: créer l'objet note, puis l'insérer ?
-            Note newNote = cursorToNote(cursor);
-            Log.i(TAG_LOG, "created Note : " + newNote);
-            return  newNote;
-        }
+        Log.i(TAG_LOG, "created Note : " + newNote);
+        return  newNote;
     }
 
     /**
@@ -130,6 +124,23 @@ public class NotebookDbAdapter {
                 cursor.getLong(4));
 
         return newnote;
+    }
+
+    /**
+     *
+     * @param noteToInsert
+     * @return
+     */
+    private ContentValues noteToContentValues(Note noteToInsert)
+    {
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_TITLE, noteToInsert.getTitle());
+        values.put(COLUMN_MESSAGE, noteToInsert.getMessage());
+        values.put(COLUMN_CATEGORY, noteToInsert.getCategory().getLabel());
+        values.put(COLUMN_DATE, noteToInsert.getDate());
+        // no need to set ID, it is autoincrement
+
+        return values;
     }
 
     private static class NotebookDbHelper extends SQLiteOpenHelper {

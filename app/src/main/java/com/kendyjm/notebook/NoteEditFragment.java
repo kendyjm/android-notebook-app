@@ -43,7 +43,7 @@ public class NoteEditFragment extends Fragment {
     /**
      * Remember: this method is a executed every single time we change the orientation of our device...
      * so we need to save the edited category before orientation changing (before it comes from the intent, one time)
-     * @see NoteEditFragment.onSaveInstanceState
+     * @see NoteEditFragment onSaveInstanceState
      *
      * @See NoteViewFragment, which is very similar
      *
@@ -131,7 +131,10 @@ public class NoteEditFragment extends Fragment {
         AlertDialog.Builder categoryBuilder = new AlertDialog.Builder(getActivity());
         categoryBuilder.setTitle(R.string.choose_note_category);
 
-        int checkedItem = Note.Category.getItemPosition(noteCategory);
+        int checkedItem = 0;
+        if(newNote == false) {
+            checkedItem = Note.Category.getItemPosition(noteCategory);
+        }
 
         categoryBuilder.setSingleChoiceItems(categories, checkedItem, new DialogInterface.OnClickListener() {
             @Override
